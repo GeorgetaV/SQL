@@ -1,0 +1,70 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2761
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 use homework;\
+\
+-- \uc0\u1058 \u1072 \u1073 \u1083 \u1080 \u1094 \u1072  - customers\
+-- \uc0\u1042 \u1099 \u1074 \u1077 \u1089 \u1090 \u1080  \u1084 \u1072 \u1082 \u1089 \u1080 \u1084 \u1072 \u1083 \u1100 \u1085 \u1099 \u1081  \u1080  \u1084 \u1080 \u1085 \u1080 \u1084 \u1072 \u1083 \u1100 \u1085 \u1099 \u1081  credit_limit.\
+\
+select max(CREDIT_LIMIT) as max_credit_limit,\
+min(CREDIT_LIMIT) as min_credit_limit\
+from customers;\
+\
+-- \uc0\u1042 \u1099 \u1074 \u1077 \u1089 \u1090 \u1080  \u1087 \u1086 \u1082 \u1091 \u1087 \u1072 \u1090 \u1077 \u1083 \u1077 \u1081  \u1091  \u1082 \u1086 \u1090 \u1086 \u1088 \u1099 \u1093  creditlimit \u1074 \u1099 \u1096 \u1077  \u1089 \u1088 \u1077 \u1076 \u1085 \u1077 \u1075 \u1086  creditlimit.\
+\
+select CUST_FIRST_NAME,\
+CUST_LAST_NAME\
+from customers\
+where CREDIT_LIMIT > (select avg (CREDIT_LIMIT) from customers);\
+\
+\
+-- \uc0\u1053 \u1072 \u1081 \u1090 \u1080  \u1082 \u1086 \u1083 /\u1074 \u1086  \u1087 \u1086 \u1082 \u1091 \u1087 \u1072 \u1090 \u1077 \u1083 \u1077 \u1081  \u1080 \u1084 \u1103  \u1082 \u1086 \u1090 \u1086 \u1088 \u1099 \u1093  \u1085 \u1072 \u1095 \u1080 \u1085 \u1072 \u1077 \u1090 \u1089 \u1103  \u1085 \u1072  \u1073 \u1091 \u1082 \u1074 \u1091  'D' \u1080  credit_limit \u1073 \u1086 \u1083 \u1100 \u1096 \u1077  500.\
+-- \uc0\u1087 \u1086  \u1080 \u1084 \u1077 \u1085 \u1080 \
+select count(*) as number_of_customers\
+from customers\
+where CUST_FIRST_NAME like 'D%' and CREDIT_LIMIT > 500;\
+\
+-- \uc0\u1087 \u1086  \u1092 \u1072 \u1084 \u1080 \u1083 \u1080 \u1080 \
+select count(*) as number_of_customers\
+from customers\
+where CUST_LAST_NAME like 'D%' and CREDIT_LIMIT > 500;\
+\
+\
+-- \uc0\u1058 \u1072 \u1073 \u1083 \u1080 \u1094 \u1072  - order_items\
+-- \uc0\u1053 \u1072 \u1081 \u1090 \u1080  \u1089 \u1088 \u1077 \u1076 \u1085 \u1077 \u1077  \u1079 \u1085 \u1072 \u1095 \u1077 \u1085 \u1080 \u1077  unit_price\
+\
+select avg(unit_price) as unit_average_price\
+from order_items;\
+\
+\
+-- \uc0\u1058 \u1072 \u1073 \u1083 \u1080 \u1094 \u1099  - order_items, product_information\
+-- \uc0\u1042 \u1099 \u1074 \u1077 \u1089 \u1090 \u1080  \u1080 \u1084 \u1077 \u1085 \u1072  \u1087 \u1088 \u1086 \u1076 \u1091 \u1082 \u1090 \u1086 \u1074 (PRODUCT_NAME), \u1082 \u1086 \u1083 /\u1074 \u1086 (QUANTITY) \u1082 \u1086 \u1090 \u1086 \u1088 \u1099 \u1093  \u1084 \u1077 \u1085 \u1100 \u1096 \u1077  \u1089 \u1088 \u1077 \u1076 \u1085 \u1077 \u1075 \u1086 .\
+\
+select t1. PRODUCT_NAME\
+from product_information t1\
+inner join order_items t2\
+on t1.PRODUCT_ID = t2.PRODUCT_ID\
+where QUANTITY < (select avg(QUANTITY) from order_items);\
+\
+-- \uc0\u1058 \u1072 \u1073 \u1083 \u1080 \u1094 \u1099  - orders, customers\
+-- \uc0\u1042 \u1099 \u1074 \u1077 \u1089 \u1090 \u1080  \u1080 \u1084 \u1103  \u1080  \u1092 \u1072 \u1084 \u1080 \u1083 \u1080 \u1102  \u1087 \u1086 \u1082 \u1091 \u1087 \u1072 \u1090 \u1077 \u1083 \u1103  \u1089  \u1084 \u1072 \u1082 \u1089 \u1080 \u1084 \u1072 \u1083 \u1100 \u1085 \u1086 \u1081  \u1086 \u1073 \u1097 \u1077 \u1081  \u1089 \u1091 \u1084 \u1084 \u1086 \u1081  \u1087 \u1086 \u1082 \u1091 \u1087 \u1082 \u1080 (ORDER_TOTAL).\
+\
+select t1.CUST_FIRST_NAME,\
+t1.CUST_LAST_NAME\
+from customers t1\
+inner join orders t2\
+on t1.CUSTOMER_ID = t2.CUSTOMER_ID\
+where t2.ORDER_TOTAL = (select max(ORDER_TOTAL) from orders);\
+\
+\
+-- \uc0\u1053 \u1072 \u1081 \u1090 \u1080  \u1089 \u1091 \u1084 \u1084 \u1091  \u1086 \u1073 \u1097 \u1077 \u1081  \u1089 \u1091 \u1084 \u1084 \u1099  \u1087 \u1086 \u1082 \u1091 \u1087 \u1086 \u1082 (ORDER_TOTAL) \u1074 \u1089 \u1077 \u1093  \u1078 \u1077 \u1085 \u1072 \u1090 \u1099 \u1093  \u1084 \u1091 \u1078 \u1095 \u1080 \u1085  \u1087 \u1086 \u1082 \u1091 \u1087 \u1072 \u1090 \u1077 \u1083 \u1077 \u1081 .\
+\
+select sum(t1.ORDER_TOTAL) as total_sum\
+from orders t1\
+inner join customers t2\
+on t1.CUSTOMER_ID = t2.CUSTOMER_ID\
+where t2.MARITAL_STATUS like 'married';}
